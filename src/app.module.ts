@@ -1,12 +1,16 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'; 
+// os imports de Product, Order e Custom.
 import { ProductController } from './product-api/product-controller';
-import { ProductService } from './product-api/product-service'; 
+import { ProductService } from './product-api/product-service';
+import { ProductModule } from './product-api/product-module'; 
 import { OrderController } from './order-api/order-controller';
 import { OrderService } from './order-api/order-service';
+import { OrderModule } from './order-api/order-module';
 import { CustomController } from './custom-api/custom-controller';
 import { CustomService } from './custom-api/custom-service';
+import { CustomModule } from './custom-api/custom-module';
 @Module({
-  imports: [],
+  imports: [ProductModule,OrderModule,CustomModule],
   controllers: [ProductController,OrderController,CustomController],
   providers: [ProductService,OrderService,CustomService],
 })
