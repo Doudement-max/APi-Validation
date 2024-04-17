@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param } from "@nestjs/common"; 
+/*import { Controller, Get, Post, Body, Param, Req } from "@nestjs/common"; 
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { OrderService } from "./order-service";
 
+@APiTAgs('Order')
 @Controller('order')
 export class OrderController {
     constructor(private readonly orderService: OrderService) {}
@@ -10,6 +11,12 @@ export class OrderController {
     create(@Body() createOrderDto: CreateOrderDto) {
         return this.orderService.create(createOrderDto);
     } 
+
+    @Post('createWithSession') 
+    async createWithSession(@Req() req: Request) {
+        const session = req.session; 
+        return this.orderService.createOrderWithSession(session);
+    }
 
     @Get()
     findAll() {
@@ -21,4 +28,4 @@ export class OrderController {
          return this.orderService.findOne(+id);
     }
 }
- 
+*/
