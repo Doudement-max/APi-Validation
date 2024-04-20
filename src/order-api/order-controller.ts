@@ -1,31 +1,31 @@
-/*import { Controller, Get, Post, Body, Param, Req } from "@nestjs/common"; 
+import { Controller, Get, Post, Body, Param, Req, HttpException, HttpStatus } from "@nestjs/common";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { OrderService } from "./order-service";
-
-@APiTAgs('Order')
+import { ApiTags } from "@nestjs/swagger";
+import { Request } from "@nestjs/common";
+import { Session } from "@nestjs/common";
+@ApiTags('Order')
 @Controller('order')
 export class OrderController {
     constructor(private readonly orderService: OrderService) {}
 
     @Post() 
-    create(@Body() createOrderDto: CreateOrderDto) {
-        return this.orderService.create(createOrderDto);
-    } 
-
-    @Post('createWithSession') 
-    async createWithSession(@Req() req: Request) {
-        const session = req.session; 
-        return this.orderService.createOrderWithSession(session);
+    async create(@Body() CreateOrderDto: CreateOrderDto) {
+        return await this.orderService.create(CreateOrderDto);
     }
+    /*@Post('createWithSession') 
+    async createWithSession(@Req() req: Request) { 
+        const session = req.session;
+        return await this.orderService.createOrderWithSession(session);
+    }*/
 
     @Get()
-    findAll() {
-        return this.orderService.findAll();
-    }  
-
-    @Get(':id') 
-    findOne(@Param('id') id: string) {
-         return this.orderService.findOne(+id);
+    async findAll() {
+        return await this.orderService.findAll();
     }
+
+    /*@Get(':id') 
+    async findOne(@Param('id') id: string) {
+        return await this.orderService.findOne(+id);
+    }*/
 }
-*/

@@ -1,4 +1,4 @@
-/*import { Module } from '@nestjs/common'; 
+import { Module } from '@nestjs/common'; 
 import { ShopifyCoreModule } from '@nestjs-shopify/core';
 // os imports de Product, Order e Custom.
 import { ProductController } from './product-api/product-controller';
@@ -10,11 +10,29 @@ import { OrderModule } from './order-api/order-module';
 import { CustomController } from './custom-api/custom-controller';
 import { CustomService } from './custom-api/custom-service';
 import { CustomModule } from './custom-api/custom-module';
+// Mongo
+import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 @Module({
-  imports: [ProductModule,OrderModule,CustomModule],
   controllers: [ProductController,OrderController,CustomController],
+  //imports: [ProductModule,OrderModule,CustomModule], 
+  imports: [ 
+    ConfigModule.forRoot({ isGlobal: true }),
+     
+    MongooseModule.forRootAsync({
+     useFactory: async (ConfigService: ConfigService) => ({
+       uri: ConfigService.get<string>('MONGODB_URI') || 'mongodb://localhost:27017/nestdb', 
+       userNewUrlParser: true, 
+       useUnifiedTopology: true,
+
+     }),
+    }),
+  ],
+ 
   providers: [ProductService,OrderService,CustomService], 
+
+  
  
 })
 
-export class AppModule {}*/
+export class AppModule {}
