@@ -13,19 +13,10 @@ export class OrderController {
     async create(@Body() CreateOrderDto: CreateOrderDto) {
         return await this.orderService.create(CreateOrderDto);
     }
-    /*@Post('createWithSession') 
-    async createWithSession(@Req() req: Request) { 
-        const session = req.session;
-        return await this.orderService.createOrderWithSession(session);
-    }*/
 
     @Get()
     async findAll() {
         return await this.orderService.findAll();
     }
 
-    /*@Get(':id') 
-    async findOne(@Param('id') id: string) {
-        return await this.orderService.findOne(+id);
-    }*/
 }
