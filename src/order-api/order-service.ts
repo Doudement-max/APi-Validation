@@ -21,7 +21,7 @@ export class OrderService {
     const order = {
       line_items: [
         {
-          title: "Big Brown Bear Boots",
+          title: "Botas de Couro",
           price: 74.99,
           grams: 1300,
           quantity: 3,
@@ -29,20 +29,20 @@ export class OrderService {
             {
               price: 13.5,
               rate: 0.06,
-              title: "State tax"
+              title: "Imposto"
             }
           ]
         }
       ],
       transactions: [
         {
-          kind: "sale",
-          status: "success",
+          kind: "Oferta",
+          status: "Sucesso",
           amount: 238.47
         }
       ],
       total_tax: 13.5,
-      currency: "BRS"
+      currency: "BR$"
     };
 
     this.orders.push(order);
