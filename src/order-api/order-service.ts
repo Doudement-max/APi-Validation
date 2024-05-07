@@ -17,6 +17,20 @@ export class OrderService {
     return this.orders.find(item => item.id === id);
   }
 
+  createOrderWithDto(createOrderDto: CreateOrderDto) {
+    const order = {
+      customer: createOrderDto.customer,
+      items: createOrderDto.items,
+      total: createOrderDto.total,
+      lineItems: createOrderDto.lineItems,
+      totalTax: createOrderDto.totalTax,
+      currency: createOrderDto.currency
+    };
+
+    this.orders.push(order);
+    return order;
+  }
+
   createOrderWithSession(session: any) {
     const order = {
       line_items: [
