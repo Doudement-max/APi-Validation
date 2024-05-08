@@ -43,4 +43,31 @@ class ShopMoney {
 
     @ApiProperty() 
     currency_code: string;
+} 
+
+class CurrentSubtotalPriceSet {
+    @ApiProperty({type: ShopMoney})
+    shop_money: ShopMoney;
+
+    @ApiProperty({type: ShopMoney})
+    presentment_money: ShopMoney;
 }
+
+export class OrderResponse {
+
+    @ApiProperty()
+    id: number;
+
+    @ApiProperty() 
+    email: string;
+
+    @ApiProperty()
+    created_at: string;
+
+    @ApiProperty()
+    updated_at: string;
+
+    @ApiProperty({type: CurrentSubtotalPriceSet })
+    current_subtotal_price_set: CurrentSubtotalPriceSet;
+}
+

@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Req, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Req, HttpException, HttpStatus, HttpCode } from "@nestjs/common";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { OrderService } from "./order-service";
-import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiResponse, ApiOperationOptions } from "@nestjs/swagger";
 import { Request } from "@nestjs/common";
 import { Session } from "@nestjs/common";
+import { OrderResponse } from "./dto/create-order.dto";
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
@@ -18,9 +19,19 @@ export class OrderController {
     createOR(@Body() CreateOrderDto: CreateOrderDto) {
         return this.orderService;this.create(CreateOrderDto);
     }
+    @HttpCode(201)
+    @ApiOperation({
+      status: 201,
+      description: 'O Pedido foi criado com sucesso',
+      type: OrderResponse,
+    } as ApiOperationOptions)
+     
+    @Post(':id/cancel')
+    @ApiOperation({summary: 'Cancelar o Pedido'})
+    async cancelOrder(@Param('id') id: string, @Body() cancelDetails: {amount: string, currency: string}) {}
     @Get()
     async findAll() {
         return await this.orderService.findAll();
     }
-
+ 
 }
