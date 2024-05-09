@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-
+import { IsNotEmpty } from "class-validator";
 export class LineItem {
     @ApiProperty()
     title: string;
@@ -26,6 +26,9 @@ export class CreateOrderDto {
 
     @ApiProperty({type:  [LineItem] })
     line_items: LineItem[];
+
+    @IsNotEmpty()
+    data: Date;
 } 
 
 export class UpdateOrderDto {
@@ -70,4 +73,3 @@ export class OrderResponse {
     @ApiProperty({type: CurrentSubtotalPriceSet })
     current_subtotal_price_set: CurrentSubtotalPriceSet;
 }
-

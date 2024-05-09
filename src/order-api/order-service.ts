@@ -1,23 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
+import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderCancelDto } from './dto/cancel-order.dto';
+
 @Injectable()
-export class OrderService {
+export class OrdersService {
   private readonly orders = [];
 
+  constructor(
+    @InjectRepository(Order)
+    private ordersRepository: Repository<Order>,
+  ) {}
+
   create(createOrderDto: CreateOrderDto){
-    this.orders.push(createOrderDto);
-  }
-
-  findAll(){
-    return this.orders;
-  }
-
-  findOne(id: number) {
-    return this.orders.find(item => item.id === id);
-  }
-
-  createOrderWithDto(createOrderDto: CreateOrderDto) {
     const order = {
       customer: createOrderDto.customer,
       items: createOrderDto.items,
@@ -28,6 +25,25 @@ export class OrderService {
     };
 
     this.orders.push(order);
+    return order;
+  }
+
+  findAll(){
+    return this.orders;
+  }
+
+  findOne(id: number) {
+    return this.orders.find(item => item.id === id);
+  }
+
+  async cancel(id: string, cancelDetails: OrderCancelDto) {
+    const order = await this.ordersRepository.findOne(id as FindOneOptions);
+    if (!order) {
+      throw new NotFoundException(`Order #${id} not found`);
+    }
+    order.status = 'cancelled';
+    order.cancelDetails = cancelDetails;
+    await this.ordersRepository.save(order);
     return order;
   }
 
