@@ -6,8 +6,8 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderCancelDto } from './dto/cancel-order.dto';
 
 @Injectable()
-export class OrdersService {
-  private readonly orders = [];
+export class OrderService {
+  private readonly order = [];
 
   constructor(
     @InjectRepository(Order)
@@ -24,16 +24,16 @@ export class OrdersService {
       currency: createOrderDto.currency
     };
 
-    this.orders.push(order);
+    this.order.push(order);
     return order;
   }
 
   findAll(){
-    return this.orders;
+    return this.order;
   }
 
   findOne(id: number) {
-    return this.orders.find(item => item.id === id);
+    return this.order.find(item => item.id === id);
   }
 
   async cancel(id: string, cancelDetails: OrderCancelDto) {
@@ -75,7 +75,7 @@ export class OrdersService {
       currency: "BR$"
     };
 
-    this.orders.push(order);
+    this.order.push(order);
     return order;
   }
 }

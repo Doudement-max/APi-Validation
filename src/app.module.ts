@@ -6,13 +6,14 @@ import { ProductController } from './product-api/product-controller';
 import { ProductService } from './product-api/product-service';
 import { ProductModule } from './product-api/product-module'; 
 import { OrderController } from './order-api/order-controller';
-import { OrdersService } from './order-api/order-service';
+import { OrderService } from './order-api/order-service';
 import { OrderModule } from './order-api/order-module';
 import { CustomController } from './custom-api/custom-controller';
 import { CustomService } from './custom-api/custom-service';
 import { CustomModule } from './custom-api/custom-module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Mongoose } from 'mongoose';
+import { Mongoose } from 'mongoose'; 
+import { DatabaseModule } from './databasemodule';
 // Config
 import {ConfigModule, ConfigService} from '@nestjs/config';
 
@@ -22,7 +23,8 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
   imports: [
     ProductModule, 
     OrderModule, 
-    CustomModule, 
+    CustomModule,  
+    DatabaseModule, 
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -33,6 +35,6 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
     })
   ],
  
-  providers: [ProductService,OrdersService,CustomService],
+  providers: [ProductService,OrderService,CustomService],
 })
 export class AppModule {}
