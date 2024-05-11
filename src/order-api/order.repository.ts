@@ -1,4 +1,3 @@
-// order.repository.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
@@ -48,12 +47,12 @@ export class OrderRepository {
   
   async deleteOrder(id: number): Promise<void> {
     try {
-      const existingOrder = await this.findOrderById(id); // Use o método findOrderById para buscar a ordem existente
+      const existingOrder = await this.findOrderById(id); 
       if (!existingOrder) {
         throw new Error('Ordem não encontrada.');
       }
   
-      await this.orderRepository.delete(id); // Exclua a ordem pelo ID
+      await this.orderRepository.delete(id); 
     } catch (error) {
       console.error('Erro ao excluir a ordem:', error.message);
       throw new Error('Não foi possível excluir a ordem.');

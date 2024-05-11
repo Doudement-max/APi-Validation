@@ -4,15 +4,19 @@ import { OrderService } from "./order-service";
 import { OrderResponse } from "./dto/create-order.dto";
 import { Order } from "./order.entity"; 
 import { OrderRepository } from "./order.repository";
-import { MongooseModule } from "@nestjs/mongoose/dist/mongoose.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+//import { MongooseModule } from "@nestjs/mongoose/dist/mongoose.module";
 
 
 
 @Module({
-     imports:[Order, OrderResponse, MongooseModule.forRoot('mongodb://localhost/mydb')], 
+     imports:[Order, OrderResponse, 
+        TypeOrmModule.forFeature([OrderRepository]),
+     ], 
      
     controllers: [OrderController],
-    providers: [OrderService, OrderRepository, ],
-})
-export class MongooseCoreModule{}
+    providers: [OrderService, OrderRepository,],
+    exports: [OrderService]
+}) 
+
 export class OrderModule {}
