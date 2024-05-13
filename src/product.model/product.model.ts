@@ -1,7 +1,6 @@
-/*import * as mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'typeorm';
-
+import { Document } from 'mongoose';
 
 @Schema() 
 export class Order extends Document {
@@ -27,4 +26,4 @@ sku: String,
 name: String,
 price: Number,
 
-})*/
+})

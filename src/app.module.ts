@@ -56,10 +56,6 @@ import { OrderModule } from './order-api/order-module';
 import { CustomController } from './custom-api/custom-controller';
 import { CustomService } from './custom-api/custom-service';
 import { CustomModule } from './custom-api/custom-module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Mongoose } from 'mongoose';  
-//import { MongooseCoreModule } from './order-api/order-module';
-import { DatabaseModule } from './databasemodule'; 
 
 // Config
 import {ConfigModule, ConfigService} from '@nestjs/config';
@@ -68,9 +64,7 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
   controllers: [ProductController,OrderController,CustomController],
  
   imports: [
-    ProductModule, 
-    OrderModule, 
-    CustomModule],
+    ProductModule, OrderModule, CustomModule,],
  
   providers: [ProductService,OrderService,CustomService],
 })

@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { OrderRepository } from './order.repository';
-import { EntityManager, FindOneOptions, Repository, TransactionAlreadyStartedError } from 'typeorm';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderCancelDto } from './dto/cancel-order.dto';
@@ -11,11 +10,8 @@ export class OrderService {
   private readonly order = [];
 
   constructor(
-    @InjectRepository(Order)
-    private orderRepository: OrderRepository,
-
-    @InjectEntityManager() 
-    private entityManager: EntityManager,
+    @InjectModel(Order.name)
+    private orderModel: Model<Order>,
   ) {}
 
   create(createOrderDto: CreateOrderDto){
@@ -39,29 +35,39 @@ export class OrderService {
   findOne(id: number) {
     return this.order.find(item => item.id === id);
   } 
-  async someMethod() {;
-    await this.entityManager.transaction(async TransactionalEntityManager => {
-      const newOrder = new Order();
+
+  async someMethod() {
+    const session = await this.orderModel.startSession();
+    session.startTransaction();
+    try {
+      const newOrder = new this.orderModel();
       newOrder.name = 'Novo peido';
-      await TransactionalEntityManager.save(newOrder);
+      await newOrder.save({ session });
 
-      const existingOrder = await TransactionalEntityManager.findOne(Order, {id: 1} as FindOneOptions); 
-       if (existingOrder) {
+      const existingOrder = await this.orderModel.findById(1).session(session);
+      if (existingOrder) {
         existingOrder.name = 'Pedido atualizado';
-        await TransactionalEntityManager.save(existingOrder);
-       } 
+        await existingOrder.save({ session });
+      } 
 
-       const orderToDelete = await TransactionalEntityManager.findOne(Order, {id: 2}as FindOneOptions);
-       if (orderToDelete){
-         await TransactionalEntityManager.remove(orderToDelete);
-       }
-    }) 
-      
-    
+      const orderToDelete = await this.orderModel.findById(2).session(session);
+      if (orderToDelete){
+        await orderToDelete.remove({ session });
+      }else {
+        throw new Error('Ordem não encontrada.');
+      }
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
   }
 
   async cancel(id: string, cancelDetails: OrderCancelDto) {
-    const order = await this.entityManager.findOne(Order, { id: id } as FindOneOptions)as unknown as Order | undefined;
+    const order = await this.orderModel.findById(id);
     if (!order) {
       throw new NotFoundException(`Order #${id} not found`);
     }
@@ -73,14 +79,12 @@ export class OrderService {
     order.cancelDetails = cancelDetails;
     order.cancelDate = new Date();
     
-    await this.entityManager.transaction(async transactionalEntityManager => {
-      await transactionalEntityManager.save(order);
-    });
+    await order.save();
 
     return order;
   }
 
-  createOrderWithSession(session: any) {
+  createOrderWithSession(session: unknown) {
     const order = {
       line_items: [
         {
@@ -111,8 +115,4 @@ export class OrderService {
     this.order.push(order);
     return order;
   }
-}
-
-function TransactionalEntityManager(entityManager: EntityManager): Promise<unknown> {
-  throw new Error('Function not implemented.');
 }
