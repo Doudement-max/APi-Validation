@@ -1,4 +1,4 @@
-/*import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core'; 
 import { ShopifyCoreModule } from '@nestjs-shopify/core';
 // os imports de Product, Order e Custom.
@@ -13,7 +13,6 @@ import { CustomService } from './custom-api/custom-service';
 import { CustomModule } from './custom-api/custom-module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Mongoose } from 'mongoose';  
-import { MongooseCoreModule } from './order-api/order-module';
 import { DatabaseModule } from './databasemodule'; 
 
 // Config
@@ -40,11 +39,12 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
   providers: [ProductService,OrderService,CustomService],
 })
 
-export class AppModule {}*/
+export class AppModule {}
 
 
-import { Module } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core'; 
+/*import { Module } from '@nestjs/common';
+import {ModuleRef } from '@nestjs/core';
+ 
 import { ShopifyCoreModule } from '@nestjs-shopify/core';
 // os imports de Product, Order e Custom.
 import { ProductController } from './product-api/product-controller';
@@ -64,9 +64,10 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
   controllers: [ProductController,OrderController,CustomController],
  
   imports: [
-    ProductModule, OrderModule, CustomModule,],
+    ProductModule, OrderModule, CustomModule],
  
   providers: [ProductService,OrderService,CustomService],
 })
 
 export class AppModule {}
+*/

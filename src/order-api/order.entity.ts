@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { OrderCancelDto } from "/home/doudement/Documentos/api-validation/nestjs-validation/src/order-api/dto/cancel-order.dto";
 
 export interface OrderEntity extends Document {
+  id: number;
   remove: string;
   name: string; 
   customerName: string;

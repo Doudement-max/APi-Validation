@@ -13,11 +13,10 @@ export class OrderRepository {
 
   async findOrderById(id: number): Promise<OrderDocs | null> {
     try {
-      const order = await this.orderModel.findById(id);
-      return order || null;
+      return await this.orderModel.findById(id);
     } catch (error) {
       console.error('Erro ao buscar ordem pelo ID:', error.message);
-      return null;
+      throw new Error('Erro ao buscar ordem pelo ID.');
     }
   }
 
@@ -26,6 +25,11 @@ export class OrderRepository {
       const existingOrder = await this.findOrderById(id); 
 
       if (existingOrder instanceof this.orderModel) {
+        // Verifique se os dados do pedido são válidos antes de tentar atualizá-lo
+        if (!orderData || !orderData.custom || !orderData.product || !orderData.totalAmount) {
+          throw new Error('Dados do pedido inválidos.');
+        }
+
         existingOrder.custom = orderData.custom;
         existingOrder.product = orderData.product;
         existingOrder.totalAmount = orderData.totalAmount;
@@ -33,11 +37,12 @@ export class OrderRepository {
         await existingOrder.save(); 
         return existingOrder;
       } else {
-        throw new Error('Ordem não encontrada.');
+        throw new Error(`Ordem com ID ${id} não encontrada.`);
       }
     } catch (error) {
       console.error('Erro ao atualizar a ordem:', error.message);
-      throw new Error('Não foi possível atualizar a ordem.');
+    
+      throw new Error(`Não foi possível atualizar a ordem: ${error.message}`);
     }
   }
   
@@ -56,7 +61,12 @@ export class OrderRepository {
   }
 
   async createOrder(orderData: {custom: string; product: string }): Promise<OrderDocs> {
-    const newOrder = new this.orderModel(orderData);
-    return newOrder.save();
+    try {
+      const newOrder = new this.orderModel(orderData);
+      return await newOrder.save();
+    } catch (error) {
+      console.error('Erro ao criar a ordem:', error.message);
+      throw new Error('Não foi possível criar a ordem.');
+    }
   } 
 }

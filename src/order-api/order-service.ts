@@ -16,25 +16,25 @@ export class OrderService {
   ) {}
 
   create(createOrderDto: CreateOrderDto){
-    const order = {
+    const order = new this.orderModel({
       customer: createOrderDto.customer,
       items: createOrderDto.items,
       total: createOrderDto.total,
       lineItems: createOrderDto.lineItems,
       totalTax: createOrderDto.totalTax,
       currency: createOrderDto.currency
-    };
+    });
 
     this.order.push(order);
     return order;
   }
 
   findAll(){
-    return this.order;
+    return this.orderModel;
   }
 
-  findOne(id: number) {
-    return this.order.find(item => item.id === id);
+  async findOne(id: number) {
+    return this.orderModel.findById(id.toString());
   } 
 
   async someMethod() {

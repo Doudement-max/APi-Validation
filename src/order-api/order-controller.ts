@@ -5,20 +5,19 @@ import { ApiTags, ApiOperation, ApiResponse, ApiOperationOptions } from "@nestjs
 import { Request } from "@nestjs/common";
 import { Session } from "@nestjs/common";
 import { OrderResponse } from "./dto/create-order.dto";
+
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
     constructor(private readonly orderService: OrderService) {}
 
     @Post() 
+    @ApiOperation({summary: 'Create order'})
+    @ApiResponse({status: 201, description: 'The order has been successfully created'})
     async create(@Body() CreateOrderDto: CreateOrderDto) {
         return await this.orderService.create(CreateOrderDto);
     }
-   @ApiOperation({summary: 'Create order'})
-   @ApiResponse({status: 201, description: 'The order has been successfully created'})
-    createOR(@Body() CreateOrderDto: CreateOrderDto) {
-        return this.orderService;this.create(CreateOrderDto);
-    }
+
     @HttpCode(201)
     @ApiOperation({
       status: 201,
@@ -29,9 +28,9 @@ export class OrderController {
     @Post(':id/cancel')
     @ApiOperation({summary: 'Cancelar o Pedido'})
     async cancelOrder(@Param('id') id: string, @Body() cancelDetails: {amount: string, currency: string}) {}
+
     @Get()
     async findAll() {
         return await this.orderService.findAll();
     }
- 
 }
