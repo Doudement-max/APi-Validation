@@ -21,10 +21,33 @@ const OrderSchema: Schema = new Schema({
   cancelDetails: { type: Object, required: true },
   cancelDate: { type: Date, required: true },
 });
+import mongoose from 'mongoose';
+import { OrderDto } from './dto/order-dto';
 
 @Injectable() 
 export class OrderService{
   constructor(
     @InjectModel('OrderEntity') private orderModel: Model<OrderEntity>,
-  ) {}
+  ) {
+
+    this.initializeModel();
+  }
+
+ 
+  initializeModel() {
+    this.orderModel = mongoose.model<OrderEntity>('OrderEntity', OrderSchema);
+  } 
+  async findAll(): Promise<OrderDto[]> {
+    const docs = await this.orderModel.find().exec();
+    return docs.map(doc => ({
+      id: doc._id.toString(),
+      remove: doc.remove,
+      name: doc.name,
+      customerName: doc.customerName,
+      totalAmount: doc.totalAmount,
+      status: doc.status,
+      cancelDetails: doc.cancelDetails,
+      cancelDate: doc.cancelDate,
+    }));
+  }
 }
