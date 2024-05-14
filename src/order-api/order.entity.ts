@@ -1,30 +1,29 @@
-import { Entity, PrimaryGeneratedColumn, Column, EntityManager } from "typeorm";
-import { InjectEntityManager } from "@nestjs/typeorm";
+import { Injectable } from '@nestjs/common';
+import { Model, Schema, Document } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { OrderCancelDto } from "/home/doudement/Documentos/api-validation/nestjs-validation/src/order-api/dto/cancel-order.dto";
-import { Injectable } from "@nestjs/common";
 
-@Entity('order') 
-export class Order {
-    [x: string]: string | number | OrderCancelDto | Date;
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column({type: 'varchar', length: 100})
-customerName: string;
- 
-@Column({ type: 'decimal', precision: 10, scale: 2}) 
-totalAmount: number; 
+export interface OrderEntity extends Document {
+  remove: string;
+  name: string; 
+  customerName: string;
+  totalAmount: number;
   status: string;
   cancelDetails: OrderCancelDto;
   cancelDate: Date;
-  static cancelDetails: OrderCancelDto;
-  static status: string;
-   
 }
+
+const OrderSchema: Schema = new Schema({
+  customerName: { type: String, required: true },
+  totalAmount: { type: Number, required: true },
+  status: { type: String, required: true },
+  cancelDetails: { type: Object, required: true },
+  cancelDate: { type: Date, required: true },
+});
 
 @Injectable() 
 export class OrderService{
   constructor(
-    @InjectEntityManager()
-    private entityManager: EntityManager,
+    @InjectModel('OrderEntity') private orderModel: Model<OrderEntity>,
   ) {}
 }

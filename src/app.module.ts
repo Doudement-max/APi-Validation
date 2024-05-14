@@ -49,7 +49,7 @@ import { ShopifyCoreModule } from '@nestjs-shopify/core';
 // os imports de Product, Order e Custom.
 import { ProductController } from './product-api/product-controller';
 import { ProductService } from './product-api/product-service';
-import { ProductModule } from './product-api/product-module'; 
+import { ProductModule } from './product-api/product-module';  
 import { OrderController } from './order-api/order-controller';
 import { OrderService } from './order-api/order-service';
 import { OrderModule } from './order-api/order-module';

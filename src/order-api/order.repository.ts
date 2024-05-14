@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order } from './order.entity';
+import { OrderEntity } from './order.entity';
+import { OrderDocs } from 'src/product.model/product.model';
 
 @Injectable()
 export class OrderRepository {
   constructor(
-    @InjectModel(Order.name)
-    private readonly orderModel: Model<Order>,
+    @InjectModel(OrderDocs.name)
+    private readonly orderModel: Model<OrderDocs>,
   ) {}
 
-  async findOrderById(id: number): Promise<Order | null> {
+  async findOrderById(id: number): Promise<OrderDocs | null> {
     try {
       const order = await this.orderModel.findById(id);
       return order || null;
@@ -20,7 +21,7 @@ export class OrderRepository {
     }
   }
 
-  async updateOrder(id: number, orderData: any): Promise<Order | null> {
+  async updateOrder(id: number, orderData: any): Promise<OrderDocs | null> {
     try {
       const existingOrder = await this.findOrderById(id); 
 
@@ -54,7 +55,7 @@ export class OrderRepository {
     }
   }
 
-  async createOrder(orderData: {custom: string; product: string }): Promise<Order> {
+  async createOrder(orderData: {custom: string; product: string }): Promise<OrderDocs> {
     const newOrder = new this.orderModel(orderData);
     return newOrder.save();
   } 

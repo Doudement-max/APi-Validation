@@ -1,17 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order } from './order.entity';
+import { OrderEntity } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderCancelDto } from './dto/cancel-order.dto';
+import { OrderDocs } from 'src/product.model/product.model';
 
 @Injectable()
 export class OrderService {
   private readonly order = [];
 
   constructor(
-    @InjectModel(Order.name)
-    private orderModel: Model<Order>,
+    @InjectModel(OrderDocs.name)
+    private orderModel: Model<OrderEntity>,
   ) {}
 
   create(createOrderDto: CreateOrderDto){
@@ -52,10 +53,12 @@ export class OrderService {
 
       const orderToDelete = await this.orderModel.findById(2).session(session);
       if (orderToDelete){
-        await orderToDelete.remove({ session });
-      }else {
+        await ((orderToDelete as unknown) as { remove: (arg0: { session: any }) => any }).remove({ session });
+      }
+      else {
         throw new Error('Ordem não encontrada.');
       }
+
 
       await session.commitTransaction();
     } catch (error) {
