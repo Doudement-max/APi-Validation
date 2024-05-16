@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { OrderEntity } from './order.entity';
 import { OrderDocs } from 'src/product.model/product.model';
 
 @Injectable()
@@ -25,7 +24,7 @@ export class OrderRepository {
       const existingOrder = await this.findOrderById(id); 
 
       if (existingOrder instanceof this.orderModel) {
-        // Verifique se os dados do pedido são válidos antes de tentar atualizá-lo
+       
         if (!orderData || !orderData.custom || !orderData.product || !orderData.totalAmount) {
           throw new Error('Dados do pedido inválidos.');
         }

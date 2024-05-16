@@ -1,13 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { OrderEntity } from '../order.entity';
 import { OrderCancelDto } from './cancel-order.dto';
 
-export class OrderDto implements Partial<OrderEntity> {
+export class OrderDto implements Partial<OrderDto> {
+  toObject(): import("../order.entity").OrderEntity {
+    throw new Error('Method not implemented.');
+  }
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  id: number;
+  id: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -40,4 +42,5 @@ export class OrderDto implements Partial<OrderEntity> {
   @ApiProperty()
   @IsNotEmpty()
   cancelDate: Date;
+  _id: any;
 }

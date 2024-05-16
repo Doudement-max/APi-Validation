@@ -1,30 +1,41 @@
 import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema() 
 export class OrderDocs extends Document {
-    @Prop() 
+    @Prop({required: true}) 
     custom: string;
 
-    @Prop() 
+    @Prop({required: true}) 
     product: string;
 
-    @Prop() 
+    @Prop({required: true}) 
     name: string;
     
-    @Prop() 
+    @Prop({required: true}) 
     status: string;
 
-    @Prop() 
+    @Prop({required: true}) 
     order: string;
 
-    @Prop() 
+    @Prop({required: true}) 
     data: number;
 
-    @Prop() 
+    @Prop({required: true}) 
     totalAmount: number;
-}
+ 
+    @Prop({required: true})  
+     cancelDate: Date;
+
+     _id: Types.ObjectId;
+  
+  remove: unknown;
+  customerName: string;
+  cancelDetails: unknown;
+}; 
+
+
 export const OrderScherma = SchemaFactory.createForClass(OrderDocs);
 
 export const ProductSchema = new mongoose.Schema({
