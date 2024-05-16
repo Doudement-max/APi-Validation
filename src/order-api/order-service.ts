@@ -1,18 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { OrderEntity } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderCancelDto } from './dto/cancel-order.dto';
-import { OrderDocs } from 'src/product.model/product.model';
-
+import { Order } from './order.model';
 @Injectable()
 export class OrderService {
   private readonly order = [];
 
   constructor(
-    @InjectModel(OrderDocs.name)
-    private orderModel: Model<OrderEntity>,
+    @InjectModel(Order.name)
+    private orderModel: Model<Order>,
   ) {}
 
   create(createOrderDto: CreateOrderDto){

@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { OrderCancelDto } from './cancel-order.dto';
 
 export class OrderDto implements Partial<OrderDto> {
-  toObject(): import("../order.entity").OrderEntity {
+  toObject(): import("../order.model").Order {
     throw new Error('Method not implemented.');
   }
   @ApiProperty()
@@ -42,5 +42,5 @@ export class OrderDto implements Partial<OrderDto> {
   @ApiProperty()
   @IsNotEmpty()
   cancelDate: Date;
-  _id: any;
+  _id: unknown;
 }

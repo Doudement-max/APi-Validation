@@ -1,14 +1,7 @@
 import { Module } from '@nestjs/common';
 // os imports de Product, Order e Custom.
-
-import { ProductModule } from './product-api/product-module'; 
 import { OrderModule } from './order-api/order-module';
-
-
-import { CustomModule } from './custom-api/custom-module';
 import { MongooseModule } from '@nestjs/mongoose';  
-
-
 // Config
 import {ConfigModule, ConfigService} from '@nestjs/config';
 
@@ -17,10 +10,7 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
   controllers: [],
  
   imports: [
-    ProductModule, 
-    OrderModule, 
-    CustomModule, 
-
+    OrderModule,  
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
