@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 @Schema() 
-export class OrderDocs extends Document {
+export class Order extends Document {
     @Prop({required: true}) 
     custom: string;
 
@@ -36,9 +36,9 @@ export class OrderDocs extends Document {
 }; 
 
 
-export const OrderScherma = SchemaFactory.createForClass(OrderDocs);
+export const OrderScherma = SchemaFactory.createForClass(Order);
 
-export const ProductSchema = new mongoose.Schema({
+export const OrderSchema = new mongoose.Schema({
 sku: String,
 name: String,
 price: Number,
