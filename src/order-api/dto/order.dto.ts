@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { OrderCancelDto } from './cancel-order.dto';
+import { OrderCancelDto } from './cancel.order.dto';
 
 export class OrderDto implements Partial<OrderDto> {
   toObject(): import("../order.model").Order {
